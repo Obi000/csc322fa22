@@ -1,0 +1,51 @@
+<script src="https://threejs.org/build/three.js"></script>
+
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+var camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 1, 500);
+camera.position.set(3, 3, 3);
+camera.lookAt(0, 0, 0);
+
+var scene = new THREE.Scene();
+
+//Front
+var front1 = triangle(-0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0x880808);
+var front2 = triangle(-0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0x880808);
+
+//left
+var left1 = triangle( -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0xA52A2A);
+var left2 = triangle( -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0xA52A2A);
+
+//back
+var back1 = triangle(0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0xAA4A44);
+var back2 = triangle(0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0xAA4A44);
+
+//right
+var right1 = triangle(0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0xAA4A44);
+var right2 = triangle(0.5, 0.5, 0.5, 0.5, -0.5, 0.5,0.5, 0.5, -0.5, 0xAA4A44);
+
+//top
+var top1 = triangle(0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0xEE4B2B);
+var top2 = triangle(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0xEE4B2B);
+
+//bottom
+var bottom1 = triangle(-0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0x800020);
+var bottom2 = triangle( 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0x800020);
+
+scene.add(front1, front2, left1, left2, back1, back2, right1, right2, top1, top2, bottom1, bottom2);
+renderer.render(scene, camera);
+
+
+function triangle(x1, y1, z1, x2, y2, z2, x3, y3, z3, clr)
+{
+	var geometry = new THREE.BufferGeometry();
+  var vertices = new Float32Array([x1, y1, z1, x2, y2, x2, x3, y3, z3]);
+  geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+  
+ //Creates the mesh and color
+  var material = new THREE.MeshBasicMaterial({color: clr});
+  var mesh = new THREE.Mesh(geometry, material);
+  return mesh;
+}
