@@ -1,0 +1,59 @@
+<script src="https://threejs.org/build/three.js"></script>
+
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+var camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 1, 500);
+camera.position.set(3, 3, 3);
+camera.lookAt(0, 0, 0);
+
+var scene = new THREE.Scene();
+
+var A = [-0.5, -0.5, -0.5];
+var B = [-0.5, 0.5, -0.5];
+var C = [0.5, -0.5, -0.5];
+var D = [0.5, 0.5, -0.5];
+var E = [-0.5, -0.5, 0.5];
+var F = [-0.5, 0.5, 0.5];
+var G = [0.5, -0.5, 0.5];
+var H = [0.5, 0.5, 0.5];
+
+//Create two trianges using the a different combo of varible/vertices
+//Front
+var front1 = triangle(E, H, F, 0x880808);
+var front2 = triangle(E, G, H, 0x880808);
+
+//Left
+var left1 = triangle(F, B, E, 0xA52A2A);
+var left2 = triangle(E, F, A, 0xA52A2A);
+
+//Back
+var back1 = triangle(C, B, D, 0xAA4A44);
+var back2 = triangle(C, A, B, 0xAA4A44);
+
+//Right
+var right1 = triangle(D, G, C, 0xAA4A44);
+var right2 = triangle(H, G, D, 0xAA4A44);
+
+//Top
+var top1 = triangle(D, B, F, 0xEE4B2B);
+var top2 = triangle(F, H, D, 0xEE4B2B);
+
+//Bottom
+var bottom1 = triangle(E, A, C, 0x800020);
+var bottom2 = triangle(C, G, E, 0x800020);
+
+scene.add(front1, front2, left1, left2, back1, back2, right1, right2, top1, top2, bottom1, bottom2 );
+renderer.render(scene, camera);
+
+function triangle(x, y, z, clr)
+{
+	var geometry = new THREE.BufferGeometry();
+  var vertices = new Float32Array([x[0], x[1], x[2], y[0], y[1], y[2], z[0], z[1], z[2]]);
+  geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+
+  var material = new THREE.MeshBasicMaterial({color: clr});
+  var mesh = new THREE.Mesh(geometry, material);
+  return mesh;
+}
